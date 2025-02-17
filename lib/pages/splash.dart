@@ -23,24 +23,25 @@ class _SplashPageState extends State<SplashPage>{
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Column(
-        children: <Widget> [
-          SizedBox(height: 50.0),
-          SizedBox(
+      body: Center(
+        child: SizedBox(
             height: 200.0,
             child: Stack(
-              children: <Widget>[
-                Center(
-                  child: SizedBox(
+              alignment: Alignment.center,
+              children: <Widget>[ 
+                SizedBox(
                     width: 200,
                     height: 200,
                     child: CircularProgressIndicator(),
-                ),),
-                Center(child: Text("Cargando...")),
+                ),
+                Image(
+                    image: AssetImage('lib/assets/flutter_logo.png'),
+                    width: 100,
+                    height: 100,
+                  ),
               ],
             ),
           )
-        ]
       )
     );
   }

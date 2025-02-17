@@ -18,13 +18,17 @@ Map<String, Widget Function(BuildContext)> get appRoutes {
       );
     },
     Routes.ciudad: (context) {
-      final city = ModalRoute.of(context)!.settings.arguments as Map<String, String>?;
-      if (city == null) {
+      final arguments = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
+      if (arguments == null || !arguments.containsKey("city") || !arguments.containsKey("onDelete")) {
         return const Scaffold(
           body: Center(child: Text("Error: No se encontraron datos de la ciudad.")),
         );
       }
-      return VistaDetalle(city: city);
+
+      final city = arguments["city"] as Map<String, String>;
+      final Function(String) onDelete = arguments["onDelete"] as Function(String);
+
+      return VistaDetalle(city: city, onDelete: onDelete);
     },
   };
 }

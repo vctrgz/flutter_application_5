@@ -47,63 +47,70 @@ class _VistaBState extends State<VistaB> {
       "name": "Nueva York",
       "country": "Estados Unidos",
       "population": "8,468,000",
-      "image": "https://via.placeholder.com/150x100.png?text=Nueva+York"
+      "image": "lib/assets/nueva-york.jpg"
     },
     {
       "name": "Londres",
       "country": "Reino Unido",
       "population": "9,002,000",
-      "image": "https://via.placeholder.com/150x100.png?text=Londres"
+      "image": 'lib/assets/londres.jpeg'
     },
     {
       "name": "Tokio",
       "country": "Japón",
       "population": "14,043,000",
-      "image": "https://via.placeholder.com/150x100.png?text=Tokio"
+      "image": "lib/assets/tokio.jpg"
     },
     {
       "name": "París",
       "country": "Francia",
       "population": "2,165,000",
-      "image": "https://via.placeholder.com/150x100.png?text=Par%C3%ADs"
+      "image": "lib/assets/paris.jpg"
     },
     {
       "name": "Ciudad de México",
       "country": "México",
       "population": "9,209,000",
-      "image": "https://via.placeholder.com/150x100.png?text=Ciudad+de+M%C3%A9xico"
+      "image": "lib/assets/ciudad_de_mexico.jpg"
     },
     {
       "name": "Sídney",
       "country": "Australia",
       "population": "5,312,000",
-      "image": "https://via.placeholder.com/150x100.png?text=S%C3%ADdney"
+      "image": "lib/assets/sidney.jpg"
     },
     {
       "name": "Berlín",
       "country": "Alemania",
       "population": "3,769,000",
-      "image": "https://via.placeholder.com/150x100.png?text=Berl%C3%ADn"
+      "image": "lib/assets/Berlin.jpg"
     },
     {
       "name": "Dubai",
       "country": "Emiratos Árabes Unidos",
       "population": "3,331,000",
-      "image": "https://via.placeholder.com/150x100.png?text=Dubai"
+      "image": "lib/assets/dubai.jpg"
     },
     {
       "name": "Buenos Aires",
       "country": "Argentina",
       "population": "2,891,000",
-      "image": "https://via.placeholder.com/150x100.png?text=Buenos+Aires"
+      "image": "lib/assets/buenos_aires.jpg"
     },
     {
       "name": "El Cairo",
       "country": "Egipto",
       "population": "10,025,000",
-      "image": "https://via.placeholder.com/150x100.png?text=El+Cairo"
+      "image": "lib/assets/el_cairo.jpg"
     },
   ];
+
+  void removeCity(String cityName) {
+    setState(() {
+      cities.removeWhere((city) => city["name"] == cityName);
+    });
+    Navigator.pop(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -139,7 +146,10 @@ class _VistaBState extends State<VistaB> {
                   Navigator.pushNamed(
                     context,
                     Routes.ciudad,
-                    arguments: city,
+                    arguments: {
+                      "city": city,
+                      "onDelete": removeCity,
+                    }
                   );
                 },
               ),

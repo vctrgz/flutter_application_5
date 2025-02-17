@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class VistaDetalle extends StatefulWidget {
   final Map<String, String> city;
-
-  const VistaDetalle({super.key, required this.city});
+  final Function(String) onDelete;
+  const VistaDetalle({super.key, required this.city, required this.onDelete});
   
   @override
   _VistaDetalleState createState() => _VistaDetalleState();
@@ -44,6 +44,13 @@ class _VistaDetalleState extends State<VistaDetalle> {
             Text(
               "Población: ${city["population"]!}",
               style: const TextStyle(fontSize: 18),
+            ),
+            const SizedBox(height: 20,),
+            ElevatedButton(
+              onPressed: () {
+                widget.onDelete(city["name"]!);
+              },
+              child: const Text('Delete'),
             ),
           ],
         ),

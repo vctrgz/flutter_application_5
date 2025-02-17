@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 
 import '../routing/routes.dart';
-import 'main.dart';
 
 class VistaA extends StatefulWidget {
   const VistaA({super.key, required String title});
@@ -28,7 +27,7 @@ class _VistaAState extends State<VistaA> {
     final email = emailController.text;
     //final password = passwordController.text;
     if (_formKey.currentState!.validate()) {
-      Navigator.pushNamed(context, Routes.home, arguments: email);
+      Navigator.pushReplacementNamed(context, Routes.home, arguments: email);
     }else{
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
