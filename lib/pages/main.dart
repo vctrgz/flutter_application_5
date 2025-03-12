@@ -1,19 +1,36 @@
 // ignore_for_file: library_private_types_in_public_api, unused_element, prefer_const_constructors
 
 import 'package:flutter/material.dart';
-//import 'package:flutter_application_5/pages/ciudad.dart';
 import 'package:flutter_application_5/routing/app_routes.dart';
+import '../../l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../routing/routes.dart';
 //import 'login.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
 
-class MyApp extends StatelessWidget {
+  runApp(MyApp());
+}
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState()=> _MyAppState();
+}
+class _MyAppState extends State<MyApp> { 
+  Locale _locale = const Locale('es');
+  void changeLanguage(Locale locale) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('languageCode', locale.languageCode);
+
+    setState(() {
+      _locale = locale;
+    });
+  }
   @override
   // ignore: override_on_non_overriding_member
   Widget build(BuildContext context) {
@@ -24,139 +41,29 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       //home: const VistaA(title: '',), // Pantalla inicial
-      routes: appRoutes,
+      routes: appRoutes(changeLanguage),
       initialRoute: Routes.splash,
+      localizationsDelegates: const[
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const[
+        Locale('es'),
+        Locale('fr'),
+        Locale('en'),
+        Locale('it'),
+      ],
+      locale: _locale,
+      localeResolutionCallback: (locale, supportedLocales) {
+        for (var supportedLocale in supportedLocales) {
+          if (supportedLocale.languageCode == locale?.languageCode) {
+            return supportedLocale;
+          }
+        }
+            return supportedLocales.first;
+      }
     );
   }
 }
-
-// Vista Home
-class VistaB extends StatefulWidget {
-  final String userName;
-  final String title;
-  const VistaB({super.key, required this.title, required this.userName});
-  
-  @override
-  _VistaBState createState() => _VistaBState();
-}
-
-class _VistaBState extends State<VistaB> {
-  // Lista de ciudades con sus detalles
-  final List<Map<String, String>> cities = [
-    {
-      "name": "Nueva York",
-      "country": "Estados Unidos",
-      "population": "8,468,000",
-      "image": "lib/assets/nueva-york.jpg"
-    },
-    {
-      "name": "Londres",
-      "country": "Reino Unido",
-      "population": "9,002,000",
-      "image": 'lib/assets/londres.jpeg'
-    },
-    {
-      "name": "Tokio",
-      "country": "Japón",
-      "population": "14,043,000",
-      "image": "lib/assets/tokio.jpg"
-    },
-    {
-      "name": "París",
-      "country": "Francia",
-      "population": "2,165,000",
-      "image": "lib/assets/paris.jpg"
-    },
-    {
-      "name": "Ciudad de México",
-      "country": "México",
-      "population": "9,209,000",
-      "image": "lib/assets/ciudad_de_mexico.jpg"
-    },
-    {
-      "name": "Sídney",
-      "country": "Australia",
-      "population": "5,312,000",
-      "image": "lib/assets/sidney.jpg"
-    },
-    {
-      "name": "Berlín",
-      "country": "Alemania",
-      "population": "3,769,000",
-      "image": "lib/assets/Berlin.jpg"
-    },
-    {
-      "name": "Dubai",
-      "country": "Emiratos Árabes Unidos",
-      "population": "3,331,000",
-      "image": "lib/assets/dubai.jpg"
-    },
-    {
-      "name": "Buenos Aires",
-      "country": "Argentina",
-      "population": "2,891,000",
-      "image": "lib/assets/buenos_aires.jpg"
-    },
-    {
-      "name": "El Cairo",
-      "country": "Egipto",
-      "population": "10,025,000",
-      "image": "lib/assets/el_cairo.jpg"
-    },
-  ];
-
-  void removeCity(String cityName) {
-    setState(() {
-      cities.removeWhere((city) => city["name"] == cityName);
-    });
-    Navigator.pop(context);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('Hola ${widget.userName}'),
-        ),
-        body: ListView.builder(
-          itemCount: cities.length,
-          itemBuilder: (context, index) {
-            final city = cities[index];
-            return Card(
-              margin: EdgeInsets.all(8),
-              child: ListTile(
-                leading: Hero(
-                  tag: city["name"]!,
-                  child: Image.network(
-                    city["image"]!,
-                    width: 100,
-                    height: 100,
-                    fit: BoxFit.cover,                    
-                  ),
-                ),
-                title: Text(
-                  city["name"]!,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                ),
-                subtitle: Text(
-                  '${city["country"]!}\nPoblación: ${city["population"]!}',
-                ),
-                isThreeLine: true,
-                onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    Routes.ciudad,
-                    arguments: {
-                      "city": city,
-                      "onDelete": removeCity,
-                    }
-                  );
-                },
-              ),
-            );
-          },
-        ),
-    );
-  }
-}
-

@@ -1,33 +1,34 @@
 // Vista Login
 import 'package:flutter/material.dart';
+import 'package:flutter_application_5/l10n/app_localizations.dart';
 
 import '../routing/routes.dart';
 
-class VistaA extends StatefulWidget {
-  const VistaA({super.key, required String title});
-
+class VistaLogin extends StatefulWidget {
+  const VistaLogin({super.key, required String title, required this.changeLanguage});
+  final Function(Locale) changeLanguage;
   @override
-  _VistaAState createState() => _VistaAState();
+  _VistaLoginState createState() => _VistaLoginState();
 }
 
-class _VistaAState extends State<VistaA> {
+class _VistaLoginState extends State<VistaLogin> {
    // Controladores para los campos de texto
-  final TextEditingController emailController = TextEditingController();
+  final TextEditingController userNameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
   @override
   void dispose() {
     // Liberar recursos de los controladores
-    emailController.dispose();
+    userNameController.dispose();
     passwordController.dispose();
     super.dispose();
   }
   // Función para validar credenciales
-  void _validateEmailAndPassword(BuildContext context) {
-    final email = emailController.text;
+  void _validateUserNameAndPassword(BuildContext context) {
+    final userName = userNameController.text;
     //final password = passwordController.text;
     if (_formKey.currentState!.validate()) {
-      Navigator.pushReplacementNamed(context, Routes.home, arguments: email);
+      Navigator.pushReplacementNamed(context, Routes.menu, arguments: userName);
     }else{
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -41,9 +42,28 @@ class _VistaAState extends State<VistaA> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login Page'),
+        title: Text(localizations.loginPage),
+        actions: [
+          DropdownButton<Locale>(
+            icon:
+                const Icon(Icons.language, color: Color.fromARGB(255, 0, 0, 0)),
+            underline: SizedBox(),
+            onChanged: (Locale? locale) {
+              if (locale != null) {
+                widget.changeLanguage(locale);
+              }
+            },
+            items: const [
+              DropdownMenuItem(value: Locale('es'), child: Text('Español')),
+              DropdownMenuItem(value: Locale('en'), child: Text('English')),
+              DropdownMenuItem(value: Locale('fr'), child: Text('Français')),
+              DropdownMenuItem(value: Locale('it'), child: Text('Italiano')),
+            ],
+          ),
+        ],
       ),
       body: Center(
         child: Padding(
@@ -61,21 +81,21 @@ class _VistaAState extends State<VistaA> {
             //EMAIL
             const SizedBox(height: 40,),
             TextFormField(
-                controller: emailController,
+                controller: userNameController,
                 validator: (value){
                   if (value == null || value.isEmpty) {
-                      return 'Por favor ingresa tu correo';
+                      return localizations.emailHint;
                     } else if (value != "Usuario") {
-                      return 'El correo no existe';
+                      return localizations.invalidEmail;
                     }
                     return null;
                 },
                 keyboardType: TextInputType.emailAddress,
-                decoration: const InputDecoration(
-                  labelText: 'Email',
-                  hintText: 'Email',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.email),
+                decoration: InputDecoration(
+                  labelText: localizations.emailLabel,
+                  hintText: localizations.emailLabel,
+                  border: const OutlineInputBorder(),
+                  prefixIcon: const Icon(Icons.email),
                 ),
               ),
             //PASSWORD
@@ -84,18 +104,18 @@ class _VistaAState extends State<VistaA> {
                 controller: passwordController,
                 validator: (value){
                   if (value == null || value.isEmpty) {
-                      return 'Por favor ingresa tu contraseña';
+                      return localizations.passwordHint;
                     } else if (value != "12345") {
-                      return 'Contraseña incorrecta';
+                      return localizations.invalidPassword;
                     }
                     return null;
                 },
                 keyboardType: TextInputType.emailAddress,
-                decoration: const InputDecoration(
-                  labelText: 'Password',
-                  hintText: 'Password',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.lock),
+                decoration: InputDecoration(
+                  labelText: localizations.passwordLabel,
+                  hintText: localizations.passwordLabel,
+                  border: const OutlineInputBorder(),
+                  prefixIcon: const Icon(Icons.lock),
                 ),
               ),
             //BOTON FORGOTTED PASSWORD
@@ -107,13 +127,13 @@ class _VistaAState extends State<VistaA> {
                 //   MaterialPageRoute(builder: (context) => const VistaB()),
                 // );
               },
-              child: const Text('Forgot Password'),
+              child: Text(localizations.forgotPassword),
             ),
             //BOTON LOGIN
             const SizedBox(height: 20,),
             ElevatedButton(
-              onPressed: () => _validateEmailAndPassword(context),
-              child: const Text('Login'),
+              onPressed: () => _validateUserNameAndPassword(context),
+              child: Text(localizations.loginButton),
             ),
           ])
           )

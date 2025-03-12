@@ -30,11 +30,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.19.0
+  cupertino_icons: ^1.0.8
+  shared_preferences: ^2.5.1
 
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.8
 
 dev_dependencies:
   flutter_test:
@@ -57,20 +61,32 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  generate: true
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - lib/assets/el_cairo.jpg
+    - lib/assets/ciudades/el_cairo.jpg
     - lib/assets/flutter_logo.png
-    - lib/assets/londres.jpeg
-    - lib/assets/Berlin.jpg
-    - lib/assets/buenos_aires.jpg
-    - lib/assets/ciudad_de_mexico.jpg
-    - lib/assets/dubai.jpg
-    - lib/assets/nueva-york.jpg
-    - lib/assets/paris.jpg
-    - lib/assets/sidney.jpg
-    - lib/assets/tokio.jpg
+    - lib/assets/ciudades/londres.jpeg
+    - lib/assets/ciudades/Berlin.jpg
+    - lib/assets/ciudades/buenos_aires.jpg
+    - lib/assets/ciudades/ciudad_de_mexico.jpg
+    - lib/assets/ciudades/dubai.jpg
+    - lib/assets/ciudades/nueva-york.jpg
+    - lib/assets/ciudades/paris.jpg
+    - lib/assets/ciudades/sidney.jpg
+    - lib/assets/ciudades/tokio.jpg
+    - lib/assets/ciudades/madrid.jpg
+    - lib/assets/productos/fresa.png
+    - lib/assets/productos/mango.jpg
+    - lib/assets/productos/manzana.jpg
+    - lib/assets/productos/melon.jpg
+    - lib/assets/productos/naranja.jpg
+    - lib/assets/productos/pera.jpg
+    - lib/assets/productos/piña.jpg
+    - lib/assets/productos/platano.jpg
+    - lib/assets/productos/uva.jpg
+    - lib/assets/productos/limon.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_5/l10n/app_localizations.dart';
 
-class VistaCiudad extends StatefulWidget {
-  final Map<String, String> city;
+class VistaCompra extends StatefulWidget {
+  final Map<String, String> producto;
   final Function(String) onDelete;
-  const VistaCiudad({super.key, required this.city, required this.onDelete});
+  const VistaCompra({super.key, required this.producto, required this.onDelete});
   
   @override
-  _VistaCiudadState createState() => _VistaCiudadState();
+  _VistaCompraState createState() => _VistaCompraState();
 }
 
-class _VistaCiudadState extends State<VistaCiudad> {
+class _VistaCompraState extends State<VistaCompra> {
 
   @override
   Widget build(BuildContext context) {
-    final city = widget.city;
+    final producto = widget.producto;
     final localizations = AppLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text(city["name"]!)),
+      appBar: AppBar(title: Text(producto["name"]!)),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Hero(
-              tag: city["name"]!,
+              tag: producto["name"]!,
               child: Image.network(
-                city["image"]!,
+                producto["image"]!,
                 width: 300,
                 height: 200,
                 fit: BoxFit.cover,
@@ -33,23 +33,27 @@ class _VistaCiudadState extends State<VistaCiudad> {
             ),
             const SizedBox(height: 20),
             Text(
-              city["name"]!,
+              producto["name"]!,
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
             Text(
-              "${localizations.country}: ${city["country"]!}",
+              "${localizations.price}: ${producto["price"]!}",
               style: const TextStyle(fontSize: 18),
             ),
             const SizedBox(height: 10),
             Text(
-              "${localizations.population}: ${city["population"]!}",
+              "${localizations.date}: ${producto["dischargeDate"]!}",
+              style: const TextStyle(fontSize: 18),
+            ),
+            Text(
+              "${localizations.description}: ${producto["description"]!}",
               style: const TextStyle(fontSize: 18),
             ),
             const SizedBox(height: 20,),
             ElevatedButton(
               onPressed: () {
-                widget.onDelete(city["name"]!);
+                widget.onDelete(producto["name"]!);
               },
               child: const Text('Delete'),
             ),
